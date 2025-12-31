@@ -1,0 +1,25 @@
+1. Le titre mentionne "Problèmes NP-Complets" mais l'exemple ne traite que d'une seule instance de taille fixe (49x49). Il manque une discussion sur la scalabilité : comment le temps de convergence évolue-t-il si N passe de 9 à 16, 25, 36, 49, etc. ?
+
+2. La partie Résultats repose sur une seule exécution (un seul "run"). En méthodes stochastiques, cela n'a pas de valeur scientifique forte. Il faut présenter des moyennes, des écarts-types et un taux de succès sur N exécutions (ex: 50 ou 100 runs) pour valider la robustesse.
+
+3. Il manque une comparaison avec des méthodes déterministes. 76 secondes pour un 49x49 semble rapide, mais un algorithme exact comme les Liens Dansants de Knuth (DLX) ou un Backtracking optimisé ferait-il mieux ou moins bien sur cette taille ? Situé l'approche par rapport à l'état de l'art.
+
+4. La section sur les hyperparamètres (Température initiale, taux de refroidissement alpha) dit qu'ils sont utilisés mais n'explique pas comment ils ont été choisis. Une analyse de sensibilité ou une justification empirique (pourquoi 0.99999 et pas 0.99 ?) ajouterait de la profondeur.
+
+5. Le mécanisme de "Reheat" (redémarrage) est présent dans le code mais l'analyse des résultats indique qu'il n'a pas servi. Il serait pertinent de tester une instance plus difficile ou un refroidissement plus rapide pour forcer le système à utiliser ce mécanisme et analyser son impact.
+
+6. La définition de l'Hamiltonien pourrait être affinée. Vous utilisez la somme des conflits. Il existe d'autres métriques (ex: carrés des conflits) qui pénalisent plus fortement les gros déséquilibres. Une brève phrase justifiant le choix de la fonction linéaire vs quadratique serait bienvenue.
+
+7. Dans la partie théorique, le lien entre la "transition de phase" des problèmes SAT/CSP et le comportement du recuit simulé pourrait être explicité. Le Sudoku est connu pour avoir un pic de difficulté à un certain taux de remplissage. Votre instance est à 56% de remplissage, est-ce dans la zone "dure" ou "facile" ?
+
+8. Le code Python inséré dans le LaTeX prend beaucoup de place et inclut des détails d'implémentation non pertinents pour un papier théorique (imports, tqdm, matplotlib). Il vaudrait mieux le remplacer par un pseudo-code algorithmique propre (package algorithm2e) et mettre le code réel en annexe.
+
+9. L'analyse de la complexité est un peu rapide. Vous dites O(1) pour la mise à jour du coût, ce qui est vrai, mais la complexité globale dépend du nombre d'itérations nécessaire pour converger, qui lui n'est pas borné polynomialement dans le pire des cas. Il faut nuancer l'affirmation sur l'efficacité.
+
+10. Il manque une discussion sur les limites de l'approche "Fixed Block". Cette approche empêche nativement les conflits de blocs, mais crée-t-elle des barrières énergétiques artificielles plus hautes que si on échangeait n'importe quelle case ? (Réponse : généralement non, c'est mieux, mais cela mérite d'être explicité).
+
+11. La bibliographie est très bien pour les fondations, mais manque peut-être d'une référence comparant spécifiquement les métaheuristiques (Algorithmes Génétiques vs Recuit Simulé) sur le Sudoku pour situer votre choix.
+
+12. Une petite analyse sur l'évolution du taux d'acceptation au cours du temps serait intéressante graphiquement. On s'attend à ce qu'il chute, mais la forme de la courbe (exponentielle, linéaire ?) renseigne sur la topologie du paysage énergétique.
+
+13. La conclusion mentionne le "Parallel Tempering". C'est une excellente ouverture, mais expliquer en une phrase pourquoi cela aiderait (échange entre des répliques à températures différentes pour éviter les puits profonds) la rendrait plus percutante.

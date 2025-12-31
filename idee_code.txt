@@ -1,0 +1,24 @@
+N'ajoute aucun commentaires dans le code, ne change rien au style des graphiques, ou aux barres de chargement.
+Donne-moi le code complet des cellules à modifier dans mon code, ne change aucun titre ou commentaires de code existants.
+Explique en dehors du code la modification que tu as faite en utilisant le moins de markdown possible
+Résout les problèmes ou effectue les modifications demandées de la manière la plus efficace possible, il faut être performant et bien réfléchir.
+
+J'aimerais que tu me fasse d'autres graphiques qui affichent de sinformations complémentaires par rapport aux calculs, il y a plein de données récoltées et je ne les utilise pas vraiment toute. Affiche des graphiques qui ont un sens et un réel intéret
+
+3. AMÉLIORATION DE L'INITIALISATION (Impact Algorithmique)
+Le code remplit actuellement les cases vides de manière totalement aléatoire au début.
+- Implémentez une initialisation "gloutonne" (Greedy). Au lieu de placer les chiffres au hasard dans les blocs, essayez de les placer de sorte qu'ils minimisent immédiatement les conflits sur les lignes et les colonnes dès le départ. Partir d'une énergie plus basse réduit considérablement le chemin à parcourir vers la solution.
+
+4. OPTIMISATION DU RECUIT SIMULÉ (La "Physique" du solveur)
+- Ajoutez un mécanisme de "Quench" (Trempe) : Si l'énergie stagne pendant un certain temps à haute température, forcez une descente rapide (température = 0) pour voir si un optimum local est une solution, puis réchauffez si échec.
+- Implémentez un redémarrage intelligent (Smart Restart) : Au lieu de réinitialiser totalement la grille et la température (ce qui perd tout le travail), remontez simplement la température significativement pour sortir du minimum local sans tout détruire ("Reheating").
+- Ajustez le schéma de refroidissement : Une décroissance géométrique est standard, mais un refroidissement adaptatif (qui ralentit le refroidissement seulement quand l'énergie baisse rapidement) est plus efficace.
+
+7. CRITÈRES D'ARRÊT ANTICIPÉ
+- Détectez les situations désespérées. Si après un certain nombre de redémarrages ou d'itérations l'énergie minimale trouvée reste très loin de 0, abandonnez cet essai plus tôt. Il vaut mieux échouer vite sur une grille difficile et passer à la suivante que de passer 10 minutes sur un cas perdu.
+
+Hybridation avec une méthode de recherche locale gloutonne
+Le document mentionne que le recuit simulé devient lent à converger vers la fin. Vous pourriez intégrer une phase de descente pure (Greedy Descent) ou une recherche Tabou lorsque la température devient très basse ou lorsque l'énergie stagne. Cela permettrait de "snapper" rapidement vers la solution locale la plus proche sans attendre les fluctuations thermiques probabilistes, accélérant la phase finale de résolution.
+
+Échantillonnage préférentiel ou Importance Sampling
+Actuellement, l'algorithme choisit des blocs et des cellules totalement au hasard. Vous pourriez modifier la sélection des candidats pour privilégier les cellules qui participent actuellement à des conflits (celles dont la contribution à l'Hamiltonien est non nulle). En concentrant les tentatives de modification sur les zones "cassées" de la grille, vous augmentez le taux de transitions diminuant l'énergie, évitant de perdre du temps de calcul sur des zones de la grille déjà valides.
